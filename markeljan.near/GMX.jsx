@@ -58,6 +58,8 @@ const IconETH = () => {
     );
 };
 
+
+
 const IconLong = () => {
     return (
         <svg
@@ -92,6 +94,11 @@ const IconShort = () => {
     );
 };
 
+const IconSettings = () => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
+    )
+}
 const LogoGMX = () => {
     return (
         <svg
@@ -125,23 +132,89 @@ const LogoGMX = () => {
     );
 };
 
+/// CONSTANTS
+
+const ARBITRUM_CHAIN_ID = 42161
+const ARBITRUM_CHAIN_ID_HEX = "0xa4b1";
+const ARBITRUM_GOERLI_CHAIN_ID = 421613;
+const ARBITRUM_GOERLI_CHAIN_ID_HEX = "0x66eed";
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+const USD_DECIMALS = 30;
+
+const CONFIG = {
+    mainnet: {
+        CHAIN_ID: ARBITRUM_CHAIN_ID,
+        GMX_PRICE_ORACLE_URL: "https://arbitrum-api.gmxinfra.io",
+        GMX_ROUTER_ADDRESS: "0x7C68C7866A64FA2160F78EEaE12217FFbf871fa8",
+        ETH_ORDERVAULT_ADDRESS: "0x31eF83a530Fde1B38EE9A18093A333D8Bbbc40D5",
+        WETH_TOKEN_ADDRESS: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+        GMX_MARKET_TOKEN_ADDRESS: "0x70d95587d40A2caf56bd97485aB3Eec10Bee6336",
+        SWAP_PATH: ["0x70d95587d40A2caf56bd97485aB3Eec10Bee6336"],
+        NETWORK_INFO: {
+            "blockExplorerUrls": [
+                "https://arbiscan.io/"
+            ],
+            "iconUrls": [
+                "https://arbiscan.io/token/images/arbitrumone2_32_new.png?v=23.09.4.1"
+            ],
+            "rpcUrls": [
+                "https://arb1.arbitrum.io/rpc"
+            ],
+            "chainId": "0xa4b1",
+            "chainName": "Arbitrum One",
+            "nativeCurrency": {
+                "name": "ETH",
+                "symbol": "ETH",
+                "decimals": 18
+            }
+        }
+    },
+    testnet: {
+        CHAIN_ID: ARBITRUM_GOERLI_CHAIN_ID,
+        GMX_PRICE_ORACLE_URL: "https://gmx-synthetics-api-arb-goerli-4vgxk.ondigitalocean.app",
+        GMX_ROUTER_ADDRESS: "0xFE98518C9c8F1c5a216E999816c2dE3199f295D2",
+        ETH_ORDERVAULT_ADDRESS: "0x82aFd2590814a7Ce3d7ea6b63F80481F8b227bA9",
+        WETH_TOKEN_ADDRESS: "0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3",
+        GMX_MARKET_TOKEN_ADDRESS: "0x1529876A9348D61C6c4a3EEe1fe6CbF1117Ca315",
+        SWAP_PATH: [
+            "0x72349b00768601D9598084220224948CE5b6Ebdd",
+            "0xbdf85AaF3c63CcE42ee2f18d75f9fd8Aca4D5923",
+            "0x1012DAa9ee5C90136FD3e105b63094Aa81a0A64C"
+        ],
+        NETWORK_INFO: {
+            "blockExplorerUrls": [
+                "https://goerli.arbiscan.io/"
+            ],
+            "iconUrls": [
+                "https://arbiscan.io/token/images/arbitrumone2_32_new.png?v=23.09.4.1"
+            ],
+            "rpcUrls": [
+                "https://goerli-rollup.arbitrum.io/rpc"
+            ],
+            "chainId": "0x66eed",
+            "chainName": "Arbitrum Goerli",
+            "nativeCurrency": {
+                "name": "Arbitrum Goerli Ether",
+                "symbol": "AGOR",
+                "decimals": 18
+            }
+        }
+    }
+}
+
 /// UTILS
 function formatUsd(num) {
     return num / Math.pow(10, 12);
 }
 
-/// CONSTANTS
-
-const ARBITRUM_CHAINID = 42161
-const ARBITRUM_GOERLI_CHAINID = 421613;
-const GMX_ROUTER_ADDRESS = "0xFE98518C9c8F1c5a216E999816c2dE3199f295D2";
-const ETH_ORDERVAULT_ADDRESS = "0x82aFd2590814a7Ce3d7ea6b63F80481F8b227bA9";
-const WETH_TOKEN_ADDRESS = "0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3";
-const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-const MARKET_ADDRESS = "0x1529876A9348D61C6c4a3EEe1fe6CbF1117Ca315";
-const SWAP_PATH_ADDRESS_1 = "0x72349b00768601D9598084220224948CE5b6Ebdd";
-const SWAP_PATH_ADDRESS_2 = "0x22B9076BBCD93E491999AA748fDD6623fa019532";
-
+// calculate price with slippage of 0.5%
+function calculatePriceWithSlippage() {
+    if (isLong) {
+        return ethers.BigNumber.from(maxPrice).mul(1005).div(1000);
+    } else {
+        return ethers.BigNumber.from(minPrice).mul(995).div(1000);
+    }
+}
 
 /// State
 State.init({
@@ -151,7 +224,8 @@ State.init({
     isLong: true,
     sender: undefined,
     balance: undefined,
-    wrongNetwork: undefined,
+    network: undefined,
+    showSettings: false,
 });
 const {
     payAmount,
@@ -160,9 +234,14 @@ const {
     isLong,
     sender,
     balance,
-    wrongNetwork,
+    network,
+    showSettings,
 } = state;
+
 const { maxPrice, minPrice, tokenSymbol } = payTokenData;
+
+const currentConfig = CONFIG[network] || CONFIG['testnet'];
+console.log("currentConfig", currentConfig);
 
 const entryPrice = payTokenData && formatUsd(isLong ? maxPrice : minPrice);
 const entryPriceDisplay =
@@ -181,7 +260,12 @@ const payValueDisplay =
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
-
+const acceptablePriceBigNumber = maxPrice && calculatePriceWithSlippage();
+const acceptablePriceDisplay = acceptablePriceBigNumber && "$" +
+    formatUsd(acceptablePriceBigNumber).toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
 const leverageAmount = payAmount && payAmount * leverage * 0.99;
 
 const leveragedValue = payValue && leverageAmount * entryPrice;
@@ -214,17 +298,9 @@ const GMX_ROUTER_ABI = abiResponse.body;
 
 const iface = new ethers.utils.Interface(GMX_ROUTER_ABI);
 
-const gmxRouterContract =
-    sender &&
-    new ethers.Contract(
-        GMX_ROUTER_ADDRESS,
-        GMX_ROUTER_ABI,
-        Ethers.provider().getSigner()
-    );
-
-// FETCH ETH PRICE
+// FETCH DATA
 const gmxPriceOracleResponse = fetch(
-    "https://gmx-synthetics-api-arb-goerli-4vgxk.ondigitalocean.app/prices/tickers"
+    currentConfig.GMX_PRICE_ORACLE_URL + "/prices/tickers"
 );
 if (!gmxPriceOracleResponse.ok) {
     throw new Error("Error fetching ETH price.");
@@ -235,12 +311,22 @@ State.update({
     payTokenData: ethTokenData,
 });
 
+const primaryButtonText =
+    network === 'unsupported' ? "Switch network" :
+        payAmount <= 0 ? "Enter an amount" :
+            Number(payAmount) > Number(balance) ? "Insufficient ETH balance" :
+                isLong ? "Long ETH" :
+                    "Short ETH"
+const primaryButtonDisabled = network === 'unsupported' ? false :
+    Number(payAmount) > Number(balance)
+    || payAmount <= 0;
+
 // RECONNECT TO WALLET
 if (sender === undefined) {
     State.update({ sender: Ethers.send("eth_requestAccounts", [])[0] });
 }
 
-// FETCH SENDER BALANCE
+// FETCH WALLET BALANCE
 if (sender && balance === undefined) {
     Ethers.provider()
         .getBalance(sender)
@@ -251,18 +337,24 @@ if (sender && balance === undefined) {
     Ethers.provider()
         .getNetwork()
         .then((network) => {
-            if (
-                network.chainId !== ARBITRUM_CHAINID &&
-                network.chainId !== ARBITRUM_GOERLI_CHAINID
-            ) {
-                State.update({ wrongNetwork: true });
+            if (network.chainId === CONFIG.mainnet.CHAIN_ID) {
+                State.update({ network: 'mainnet' });
+            } else if (network.chainId === CONFIG.testnet.CHAIN_ID) {
+                State.update({ network: 'testnet' });
             } else {
-                State.update({ wrongNetwork: false });
+                State.update({ network: 'unsupported' });
             }
         });
 }
 
+/// FUNCTIONS
 function multicall(calls, value) {
+    console.log("multicall called")
+    const gmxRouterContract = new ethers.Contract(
+        currentConfig.GMX_ROUTER_ADDRESS,
+        GMX_ROUTER_ABI,
+        Ethers.provider().getSigner()
+    );
     console.log("gmxRouterContract", gmxRouterContract);
     console.log("multicall made", calls);
     const encodedCalls = calls.map((call) =>
@@ -272,30 +364,14 @@ function multicall(calls, value) {
     return gmxRouterContract["multicall"](encodedCalls, { value: value });
 }
 
+/// HANDLERS
 function handleClickSubmitOrder() {
-    if (wrongNetwork) {
-        try {
-            const chainIdHex = `0x${(ARBITRUM_GOERLI_CHAINID).toString(16)}`;
-            Ethers.send("wallet_switchEthereumChain", [
-                { chainId: chainIdHex },
-            ]);
-        } catch (e) {
-            console.log(e);
-        }
-        return;
-    }
-    let priceWithPadding;
-    if (isLong) {
-        priceWithPadding = ethers.BigNumber.from(maxPrice).mul(101).div(100); // Multiply by 1.01
-    } else {
-        priceWithPadding = ethers.BigNumber.from(minPrice).mul(99).div(100); // Multiply by 0.99
-    }
-    const acceptablePriceBigNumber = priceWithPadding;
+    const sizeDeltaUsd = leveragedValue && ethers.utils.parseUnits(leveragedValue.toString(), USD_DECIMALS)
 
     const calls = [
         {
             method: "sendWnt",
-            params: [ETH_ORDERVAULT_ADDRESS, ethers.utils.parseUnits(payAmount, 18)],
+            params: [currentConfig.ETH_ORDERVAULT_ADDRESS, ethers.utils.parseUnits(payAmount, 18)],
         },
         {
             method: "createOrder",
@@ -303,21 +379,14 @@ function handleClickSubmitOrder() {
                 {
                     addresses: {
                         receiver: sender,
-                        initialCollateralToken: WETH_TOKEN_ADDRESS,
+                        initialCollateralToken: currentConfig.WETH_TOKEN_ADDRESS,
                         callbackContract: ZERO_ADDRESS,
-                        market: MARKET_ADDRESS,
-                        swapPath: [
-                            MARKET_ADDRESS,
-                            // SWAP_PATH_ADDRESS_1,
-                            // SWAP_PATH_ADDRESS_2,
-                        ],
+                        market: currentConfig.GMX_MARKET_TOKEN_ADDRESS,
+                        swapPath: currentConfig.SWAP_PATH,
                         uiFeeReceiver: ZERO_ADDRESS,
                     },
                     numbers: {
-                        sizeDeltaUsd: {
-                            type: "BigNumber",
-                            hex: "0x08c4bf5ec6c3b8c6583a3603a800",
-                        },
+                        sizeDeltaUsd: sizeDeltaUsd,
                         initialCollateralDeltaAmount: {
                             type: "BigNumber",
                             hex: "0x00",
@@ -329,7 +398,7 @@ function handleClickSubmitOrder() {
                         acceptablePrice: acceptablePriceBigNumber,
                         executionFee: {
                             type: "BigNumber",
-                            hex: "0x028a49e903b000",
+                            hex: "0x02ee5547f09000",
                         },
                         callbackGasLimit: {
                             type: "BigNumber",
@@ -356,7 +425,7 @@ function handleClickSubmitOrder() {
 
 function handleClickMax() {
     State.update({
-        payAmount: (balance * 0.9).toFixed(4) || "0.0",
+        payAmount: (balance * 0.95).toFixed(4) || "0.0",
     });
 }
 
@@ -391,13 +460,72 @@ function handleChangePosition(isLong) {
     });
 }
 
+function handleClickSwitchNetwork(network) {
+    console.log('handleClickSwitchNetwork', network)
+    const chainId = network === 'mainnet' ? ARBITRUM_CHAIN_ID_HEX : ARBITRUM_GOERLI_CHAIN_ID_HEX;
+    try {
+        console.log('attempting to switch network')
+        Ethers.send("wallet_switchEthereumChain", [
+            { chainId: chainId },
+        ])
+    } catch (e) {
+        console.log('error switching network, attempting to add network');
+        Ethers.send("wallet_addEthereumChain", [
+            CONFIG[network].NETWORK_INFO,
+        ]);
+    }
+
+    if (network === 'unsupported') {
+        console.log('attempting to add network')
+        Ethers.send("wallet_addEthereumChain", [
+            CONFIG[network].NETWORK_INFO,
+        ]);
+    }
+
+}
+
 return (
-    <DaisyUIWrapper>
-        {"wrongNetwork?:" + wrongNetwork}
+
+    < DaisyUIWrapper >
         <div class="card bg-neutral-focus text-white">
             <div class="px-4 pt-4">
-                <div class="flex justify-center">
+                <div class="relative flex justify-center">
                     <LogoGMX />
+                    <button
+                        class="btn btn-xs btn-circle absolute right-0 top-0"
+                        onClick={() => {
+                            State.update({ showSettings: !state.showSettings });
+                        }}
+                    >
+                        <IconSettings />
+                    </button>
+
+                    {/* settings menu */}
+                    {state.showSettings && (
+                        <div class="absolute right-0 top-8 bg-gray-900 rounded p-3">
+                            <div class="flex flex-col gap-2">
+                                <button
+                                    class={`btn btn-xs btn-outline${network === 'mainnet' ? ' bg-blue-700 pointer-events-none' : ''}`}
+                                    onClick={() => {
+                                        network === 'mainnet' ? State.update({ showSettings: false }) :
+                                            handleClickSwitchNetwork("mainnet");
+                                    }}
+                                >
+                                    Mainnet
+                                </button>
+                                <button
+                                    class={`btn btn-xs btn-outline${network === 'testnet' ? ' bg-blue-700 pointer-events-none' : ''}`}
+                                    onClick={() => {
+                                        network === 'testnet' ? State.update({ showSettings: false }) :
+                                            handleClickSwitchNetwork("testnet");
+                                    }}
+                                >
+                                    Testnet
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
                 <div class="flex join pt-4">
                     <button
@@ -544,6 +672,10 @@ return (
                     <span class="label-text text-gray-500">Entry Price</span>
                     <span class="label-text">{entryPriceDisplay}</span>
                 </label>
+                <label class="label py-0">
+                    <span class="label-text text-gray-500">Acceptable Price</span>
+                    <span class="label-text">{acceptablePriceDisplay}</span>
+                </label>
             </div>
 
             <div class="divider my-1" />
@@ -556,10 +688,10 @@ return (
 
                 {sender ? (
                     <button
-                        class="btn w-full bg-blue-700 hover:bg-indigo-500 focus:bg-indigo-500 mt-2"
-                        onClick={handleClickSubmitOrder}
+                        class={`btn w-full bg-blue-700 hover:bg-indigo-500 focus:bg-indigo-500 mt-2 ${primaryButtonDisabled && 'cursor-not-allowed'}`}
+                        onClick={network === 'unsupported' ? () => handleClickSwitchNetwork("testnet") : !primaryButtonDisabled && handleClickSubmitOrder}
                     >
-                        {wrongNetwork ? "Switch Network" : isLong ? "Long ETH" : "Short ETH"}
+                        {primaryButtonText}
                     </button>
                 ) : (
                     <button
@@ -575,5 +707,5 @@ return (
                 )}
             </div>
         </div>
-    </DaisyUIWrapper>
+    </DaisyUIWrapper >
 );
