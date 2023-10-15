@@ -94,11 +94,6 @@ const IconShort = () => {
     );
 };
 
-const IconSettings = () => {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></svg>
-    )
-}
 const LogoGMX = () => {
     return (
         <svg
@@ -140,6 +135,7 @@ const ARBITRUM_GOERLI_CHAIN_ID = 421613;
 const ARBITRUM_GOERLI_CHAIN_ID_HEX = "0x66eed";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const USD_DECIMALS = 30;
+const LEVERAGE_SHORTCUTS = [2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
 
 const CONFIG = {
     mainnet: {
@@ -241,7 +237,6 @@ const {
 const { maxPrice, minPrice, tokenSymbol } = payTokenData;
 
 const currentConfig = CONFIG[network] || CONFIG['testnet'];
-console.log("currentConfig", currentConfig);
 
 const entryPrice = payTokenData && formatUsd(isLong ? maxPrice : minPrice);
 const entryPriceDisplay =
@@ -349,22 +344,19 @@ if (sender && balance === undefined) {
 
 /// FUNCTIONS
 function multicall(calls, value) {
-    console.log("multicall called")
     const gmxRouterContract = new ethers.Contract(
         currentConfig.GMX_ROUTER_ADDRESS,
         GMX_ROUTER_ABI,
         Ethers.provider().getSigner()
     );
-    console.log("gmxRouterContract", gmxRouterContract);
-    console.log("multicall made", calls);
     const encodedCalls = calls.map((call) =>
         gmxRouterContract.interface.encodeFunctionData(call.method, call.params)
     );
-    console.log("encodedCalls", encodedCalls);
     return gmxRouterContract["multicall"](encodedCalls, { value: value });
 }
 
 /// HANDLERS
+
 function handleClickSubmitOrder() {
     const sizeDeltaUsd = leveragedValue && ethers.utils.parseUnits(leveragedValue.toString(), USD_DECIMALS)
 
@@ -429,6 +421,25 @@ function handleClickMax() {
     });
 }
 
+
+function handleClickSwitchNetwork(network) {
+    const chainId = network === 'mainnet' ? ARBITRUM_CHAIN_ID_HEX : ARBITRUM_GOERLI_CHAIN_ID_HEX;
+    try {
+        Ethers.send("wallet_switchEthereumChain", [
+            { chainId: chainId },
+        ])
+    } catch (e) {
+        console.log('error switching network', e);
+    }
+    try {
+        Ethers.send("wallet_addEthereumChain", [
+            CONFIG[network].NETWORK_INFO,
+        ]);
+    } catch (e) {
+        console.log('error adding new network', e);
+    }
+}
+
 function handleChangePayAmount(e) {
     if (e.target.value === "." && !payAmount) {
         State.update({
@@ -444,61 +455,35 @@ function handleChangePayAmount(e) {
     });
 }
 
-/// LEVERAGE
-const leverageShortcuts = [2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
-
 function handleChangeLeverage(e) {
     State.update({
         leverage: Number(e.target.value),
     });
 }
 
-/// POSITION
 function handleChangePosition(isLong) {
     State.update({
         isLong: isLong,
     });
 }
 
-function handleClickSwitchNetwork(network) {
-    console.log('handleClickSwitchNetwork', network)
-    const chainId = network === 'mainnet' ? ARBITRUM_CHAIN_ID_HEX : ARBITRUM_GOERLI_CHAIN_ID_HEX;
-    try {
-        console.log('attempting to switch network')
-        Ethers.send("wallet_switchEthereumChain", [
-            { chainId: chainId },
-        ])
-    } catch (e) {
-        console.log('error switching network, attempting to add network');
-        Ethers.send("wallet_addEthereumChain", [
-            CONFIG[network].NETWORK_INFO,
-        ]);
-    }
-
-    if (network === 'unsupported') {
-        console.log('attempting to add network')
-        Ethers.send("wallet_addEthereumChain", [
-            CONFIG[network].NETWORK_INFO,
-        ]);
-    }
-
-}
-
 return (
 
     < DaisyUIWrapper >
-        <div class="card bg-neutral-focus text-white">
+        <div class="card max-w-2xl mx-auto bg-neutral-focus text-white">
             <div class="px-4 pt-4">
                 <div class="relative flex justify-center">
                     <LogoGMX />
-                    <button
-                        class="btn btn-xs btn-circle absolute right-0 top-0"
-                        onClick={() => {
-                            State.update({ showSettings: !state.showSettings });
-                        }}
-                    >
-                        <IconSettings />
-                    </button>
+                    {network &&
+                        <button
+                            class="btn btn-xs btn-outline absolute right-0 top-0"
+                            onClick={() => {
+                                State.update({ showSettings: !state.showSettings });
+                            }}
+                        >
+                            {network === 'unsupported' ? 'Unsupported network' : network}
+                        </button>
+                    }
 
                     {/* settings menu */}
                     {state.showSettings && (
@@ -636,7 +621,7 @@ return (
                     />
 
                     <div class="flex justify-between flex-wrap pl-3">
-                        {leverageShortcuts.map((value) => {
+                        {LEVERAGE_SHORTCUTS.map((value) => {
                             return (
                                 <button
                                     class="btn-xs p-0 text-gray-500 hover:text-white"
