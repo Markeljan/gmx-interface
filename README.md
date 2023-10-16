@@ -8,7 +8,7 @@ https://near.org/markeljan.near/widget/GMX
 ### Video Demo:
 https://www.youtube.com/watch?v=2ezbnR1ja2Y
 
-### How to run the GMX frontend to manage testnet postions:
+### How to run the GMX frontend to manage testnet positions:
 
 In the project directory, you can run:
 
